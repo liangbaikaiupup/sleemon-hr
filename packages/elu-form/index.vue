@@ -358,7 +358,7 @@ export default {
     // 尺寸
     size: {
       type: String,
-      default: "medium",
+      default: "small",
       validator: (value) => ["medium", "small", "mini"].includes(value),
     },
     // 是否禁用

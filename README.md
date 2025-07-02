@@ -42,7 +42,7 @@
 | `model` | Object | {} | 表单数据对象，必填 |
 | `labelWidth` | String | 'auto' | 标签宽度 |
 | `labelPosition` | String | 'right' | 标签位置，可选值：'left'、'right'、'top' |
-| `size` | String | 'medium' | 尺寸，可选值：'medium'、'small'、'mini' |
+| `size` | String | 'small' | 尺寸，可选值：'medium'、'small'、'mini' |
 | `disabled` | Boolean | false | 是否禁用整个表单 |
 | `inline` | Boolean | false | 是否为行内表单 |
 | `showMessage` | Boolean | true | 是否显示验证信息 |
