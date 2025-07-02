@@ -313,11 +313,6 @@ export default {
       type: String,
       default: "重置",
     },
-    // 取消按钮文本
-    cancelText: {
-      type: String,
-      default: "取消",
-    },
     // 提交时是否显示loading
     submitLoading: {
       type: Boolean,
