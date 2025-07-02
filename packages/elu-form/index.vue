@@ -197,6 +197,104 @@
           @change="handleFieldChange(field.prop, $event)"
         ></el-slider>
 
+        <!-- 评分 -->
+        <el-rate
+          v-else-if="field.type === 'rate'"
+          v-model="formData[field.prop]"
+          :max="field.max"
+          :disabled="field.disabled"
+          :low-threshold="field.lowThreshold"
+          :high-threshold="field.highThreshold"
+          :colors="field.colors"
+          :void-color="field.voidColor"
+          :disabled-void-color="field.disabledVoidColor"
+          :icon-classes="field.iconClasses"
+          :void-icon-class="field.voidIconClass"
+          :disabled-void-icon-class="field.disabledVoidIconClass"
+          :show-text="field.showText"
+          :show-score="field.showScore"
+          :text-color="field.textColor"
+          :texts="field.texts"
+          @change="handleFieldChange(field.prop, $event)"
+        ></el-rate>
+
+        <!-- 颜色选择器 -->
+        <el-color-picker
+          v-else-if="field.type === 'color-picker'"
+          v-model="formData[field.prop]"
+          :disabled="field.disabled"
+          :size="field.size"
+          :show-alpha="field.showAlpha"
+          :color-format="field.colorFormat"
+          :popper-class="field.popperClass"
+          :predefine="field.predefine"
+          @change="handleFieldChange(field.prop, $event)"
+        ></el-color-picker>
+
+        <!-- 级联选择器 -->
+        <el-cascader
+          v-else-if="field.type === 'cascader'"
+          v-model="formData[field.prop]"
+          :options="field.options"
+          :placeholder="field.placeholder"
+          :disabled="field.disabled"
+          :clearable="field.clearable !== false"
+          :show-all-levels="field.showAllLevels !== false"
+          :collapse-tags="field.collapseTags"
+          :separator="field.separator"
+          :filterable="field.filterable"
+          :filter-method="field.filterMethod"
+          :debounce="field.debounce"
+          :before-filter="field.beforeFilter"
+          :props="field.props"
+          :size="field.size"
+          @change="handleFieldChange(field.prop, $event)"
+          @expand-change="handleCascaderExpandChange(field.prop, $event)"
+        ></el-cascader>
+
+        <!-- 上传组件 -->
+        <el-upload
+          v-else-if="field.type === 'upload'"
+          v-model="formData[field.prop]"
+          :action="field.action"
+          :headers="field.headers"
+          :data="field.data"
+          :multiple="field.multiple"
+          :name="field.name"
+          :drag="field.drag"
+          :accept="field.accept"
+          :list-type="field.listType"
+          :auto-upload="field.autoUpload !== false"
+          :show-file-list="field.showFileList !== false"
+          :disabled="field.disabled"
+          :limit="field.limit"
+          :file-list="field.fileList"
+          :http-request="field.httpRequest"
+          :before-upload="field.beforeUpload"
+          :before-remove="field.beforeRemove"
+          :on-preview="field.onPreview"
+          :on-remove="field.onRemove"
+          :on-success="(response, file, fileList) => handleUploadSuccess(field.prop, response, file, fileList)"
+          :on-error="(err, file, fileList) => handleUploadError(field.prop, err, file, fileList)"
+          :on-progress="(event, file, fileList) => handleUploadProgress(field.prop, event, file, fileList)"
+          :on-exceed="(files, fileList) => handleUploadExceed(field.prop, files, fileList)"
+          :on-change="(file, fileList) => handleUploadChange(field.prop, file, fileList)"
+        >
+          <el-button v-if="!field.drag" :size="field.size || 'small'" type="primary">
+            <i class="el-icon-upload"></i>
+            {{ field.buttonText || '点击上传' }}
+          </el-button>
+          <div v-else class="el-upload__text">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              {{ field.dragText || '将文件拖到此处，或点击上传' }}
+            </div>
+          </div>
+          <div v-if="field.tip" slot="tip" class="el-upload__tip">
+            {{ field.tip }}
+          </div>
+        </el-upload>
+
         <!-- 自定义插槽 -->
         <slot
           v-else-if="field.type === 'slot'"
@@ -524,6 +622,36 @@ export default {
         this.refreshFieldOptions(field.prop)
       );
       await Promise.all(promises);
+    },
+
+    // 处理级联选择器展开变化
+    handleCascaderExpandChange(prop, expandedOptions) {
+      this.$emit("cascader-expand-change", prop, expandedOptions, this.formData);
+    },
+
+    // 上传成功
+    handleUploadSuccess(prop, response, file, fileList) {
+      this.$emit("upload-success", prop, response, file, fileList, this.formData);
+    },
+
+    // 上传失败
+    handleUploadError(prop, err, file, fileList) {
+      this.$emit("upload-error", prop, err, file, fileList, this.formData);
+    },
+
+    // 上传进度
+    handleUploadProgress(prop, event, file, fileList) {
+      this.$emit("upload-progress", prop, event, file, fileList, this.formData);
+    },
+
+    // 超出限制
+    handleUploadExceed(prop, files, fileList) {
+      this.$emit("upload-exceed", prop, files, fileList, this.formData);
+    },
+
+    // 文件状态改变
+    handleUploadChange(prop, file, fileList) {
+      this.$emit("upload-change", prop, file, fileList, this.formData);
     },
   },
 };
