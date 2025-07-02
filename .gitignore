@@ -1,0 +1,10 @@
+node_modules
+
+.vscode/
+
+
+
+# 插件打包输出目录
+dist/
+lib/
+
