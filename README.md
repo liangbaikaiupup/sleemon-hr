@@ -1,3 +1,14 @@
+# Sleemon HR 组件库
+
+基于 Element UI 封装的组件库，包含表单组件和表格组件，支持 JSON 配置方式实现，提供丰富的功能和便捷的使用方式。
+
+## 组件列表
+
+- **EluForm** - 基于 Element UI 封装的表单组件，支持多种表单控件类型、动态选项配置和文件上传功能
+- **EluTable** - 基于 Element UI 封装的表格组件，支持 JSON 配置方式实现，提供丰富的表格功能
+
+---
+
 # EluForm 组件
 
 基于 Element UI 封装的表单组件，支持多种表单控件类型、动态选项配置和文件上传功能。
@@ -843,4 +854,414 @@ computed: {
 }
 ```
 
-这些高级功能可以根据实际需求进行扩展实现。 
+这些高级功能可以根据实际需求进行扩展实现。
+
+---
+
+# EluTable 组件
+
+基于 Element UI 的 `el-table` 封装的表格组件，支持 JSON 配置方式实现，提供丰富的功能和便捷的使用方式。
+
+## 特性
+
+- 🚀 **JSON 配置**：通过配置对象快速定义表格列
+- 🎯 **功能完整**：支持选择、排序、筛选、分页等完整功能
+- 🛠️ **高度可定制**：支持自定义工具栏、操作列、展开内容
+- 📱 **响应式设计**：适配不同屏幕尺寸
+- 🎨 **样式统一**：与 Element UI 设计风格保持一致
+
+## 基础用法
+
+```vue
+<template>
+  <elu-table
+    :data="tableData"
+    :columns="columns"
+    :show-toolbar="true"
+    :show-selection="true"
+    :show-actions="true"
+    @refresh="handleRefresh"
+    @add="handleAdd"
+    @edit="handleEdit"
+    @delete="handleDelete"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { id: 1, name: '张三', age: 25, email: 'zhangsan@example.com' },
+        { id: 2, name: '李四', age: 30, email: 'lisi@example.com' }
+      ],
+      columns: [
+        { prop: 'name', label: '姓名', width: 120, sortable: true },
+        { prop: 'age', label: '年龄', width: 80, sortable: true },
+        { prop: 'email', label: '邮箱', minWidth: 200 }
+      ]
+    }
+  },
+  methods: {
+    handleRefresh() {
+      // 刷新数据
+    },
+    handleAdd() {
+      // 新增数据
+    },
+    handleEdit(row, index) {
+      // 编辑数据
+    },
+    handleDelete(row, index) {
+      // 删除数据
+    }
+  }
+}
+</script>
+```
+
+## Props
+
+### 基础属性
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| data | 表格数据 | Array | — | [] |
+| columns | 列配置 | Array | — | [] |
+| height | 表格高度 | String/Number | — | — |
+| maxHeight | 表格最大高度 | String/Number | — | — |
+| stripe | 是否为斑马纹表格 | Boolean | — | false |
+| border | 是否带有纵向边框 | Boolean | — | true |
+| size | 尺寸 | String | medium/small/mini | small |
+| fit | 列的宽度是否自撑开 | Boolean | — | true |
+| showHeader | 是否显示表头 | Boolean | — | true |
+| highlightCurrentRow | 是否要高亮当前行 | Boolean | — | false |
+
+### 工具栏相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showToolbar | 是否显示工具栏 | Boolean | — | false |
+| showRefresh | 是否显示刷新按钮 | Boolean | — | true |
+| showAdd | 是否显示新增按钮 | Boolean | — | true |
+
+### 选择列相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showSelection | 是否显示选择列 | Boolean | — | false |
+| selectionWidth | 选择列宽度 | String/Number | — | 55 |
+| selectionFixed | 选择列是否固定 | String/Boolean | — | false |
+| reserveSelection | 是否保留选择状态 | Boolean | — | false |
+| selectable | 选择条件函数 | Function | — | — |
+
+### 单选列相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showRadio | 是否显示单选列 | Boolean | — | false |
+| radioWidth | 单选列宽度 | String/Number | — | 55 |
+| radioFixed | 单选列是否固定 | String/Boolean | — | false |
+| radioLabel | 单选列标题 | String | — | '选择' |
+| radioAlign | 单选列对齐方式 | String | left/center/right | center |
+| selectedRow | 当前选中的行数据 | Object | — | null |
+| selectedRowKey | 当前选中的行标识 | String/Number | — | null |
+
+### 序号列相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showIndex | 是否显示序号列 | Boolean | — | false |
+| indexLabel | 序号列标题 | String | — | '序号' |
+| indexWidth | 序号列宽度 | String/Number | — | 60 |
+| indexFixed | 序号列是否固定 | String/Boolean | — | false |
+| indexAlign | 序号列对齐方式 | String | left/center/right | center |
+
+### 展开列相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showExpand | 是否显示展开列 | Boolean | — | false |
+| expandWidth | 展开列宽度 | String/Number | — | 50 |
+| expandFixed | 展开列是否固定 | String/Boolean | — | false |
+
+### 操作列相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showActions | 是否显示操作列 | Boolean | — | false |
+| actionsLabel | 操作列标题 | String | — | '操作' |
+| actionsWidth | 操作列宽度 | String/Number | — | 150 |
+| actionsFixed | 操作列是否固定 | String/Boolean | — | 'right' |
+| actionsAlign | 操作列对齐方式 | String | left/center/right | center |
+| showEdit | 是否显示编辑按钮 | Boolean | — | true |
+| showDelete | 是否显示删除按钮 | Boolean | — | true |
+
+### 分页相关
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| showPagination | 是否显示分页器 | Boolean | — | false |
+| currentPage | 当前页码 | Number | — | 1 |
+| pageSize | 每页显示条数 | Number | — | 10 |
+| pageSizes | 每页显示条数选项 | Array | — | [10, 20, 50, 100] |
+| total | 总条数 | Number | — | 0 |
+| paginationLayout | 分页器布局 | String | — | 'total, sizes, prev, pager, next, jumper' |
+| paginationSmall | 是否使用小型分页器 | Boolean | — | false |
+| paginationBackground | 是否为分页按钮添加背景色 | Boolean | — | true |
+| pagerCount | 页码按钮的数量 | Number | — | 7 |
+| hideOnSinglePage | 只有一页时是否隐藏 | Boolean | — | false |
+
+## 列配置 (columns)
+
+每列的配置对象支持以下属性：
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| prop | 对应列内容的字段名 | String | — | — |
+| label | 显示的标题 | String | — | — |
+| width | 对应列的宽度 | String/Number | — | — |
+| minWidth | 对应列的最小宽度 | String/Number | — | — |
+| fixed | 列是否固定在左侧或者右侧 | String/Boolean | true/left/right | — |
+| sortable | 对应列是否可以排序 | Boolean | — | false |
+| sortMethod | 对数据进行排序的时候使用的方法 | Function | — | — |
+| sortBy | 指定数据按照哪个属性进行排序 | String/Array/Function | — | — |
+| sortOrders | 数据在排序时所使用排序策略的轮转顺序 | Array | — | ['ascending', 'descending', null] |
+| resizable | 对应列是否可以通过拖动来改变宽度 | Boolean | — | true |
+| formatter | 用来格式化内容 | Function | — | — |
+| showOverflowTooltip | 当内容过长被隐藏时显示 tooltip | Boolean | — | false |
+| align | 对齐方式 | String | left/center/right | left |
+| headerAlign | 表头对齐方式 | String | left/center/right | — |
+| className | 列的 className | String | — | — |
+| labelClassName | 当前列标题的自定义类名 | String | — | — |
+| selectable | 仅对 type=selection 的列有效，类型为 Function | Function | — | — |
+| reserveSelection | 仅对 type=selection 的列有效，类型为 Boolean | Boolean | — | false |
+| filters | 数据过滤的选项 | Array | — | — |
+| filterPlacement | 过滤弹出框的定位 | String | — | — |
+| filterMultiple | 数据过滤的选项是否多选 | Boolean | — | true |
+| filterMethod | 数据过滤使用的方法 | Function | — | — |
+| filteredValue | 选中的数据过滤项 | Array | — | — |
+| slot | 自定义内容插槽名 | String | — | — |
+| headerSlot | 自定义表头插槽名 | String | — | — |
+
+## Events
+
+### 表格事件
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| select | 当用户手动勾选数据行的 Checkbox 时触发的事件 | selection, row |
+| select-all | 当用户手动勾选全选 Checkbox 时触发的事件 | selection |
+| selection-change | 当选择项发生变化时会触发该事件 | selection |
+| radio-change | 当单选选择发生变化时会触发该事件 | row |
+| cell-mouse-enter | 当单元格 hover 进入时会触发该事件 | row, column, cell, event |
+| cell-mouse-leave | 当单元格 hover 退出时会触发该事件 | row, column, cell, event |
+| cell-click | 当某个单元格被点击时会触发该事件 | row, column, cell, event |
+| cell-dblclick | 当某个单元格被双击击时会触发该事件 | row, column, cell, event |
+| row-click | 当某一行被点击时会触发该事件 | row, column, event |
+| row-contextmenu | 当某一行被鼠标右键点击时会触发该事件 | row, column, event |
+| row-dblclick | 当某一行被双击时会触发该事件 | row, column, event |
+| header-click | 当某一列的表头被点击时会触发该事件 | column, event |
+| header-contextmenu | 当某一列的表头被鼠标右键点击时会触发该事件 | column, event |
+| sort-change | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order } |
+| filter-change | 当表格的筛选条件发生变化的时候会触发该事件 | filters |
+| current-change | 当表格的当前行发生变化的时候会触发该事件 | currentRow, oldCurrentRow |
+| header-dragend | 当拖动表头改变了列的宽度的时候会触发该事件 | newWidth, oldWidth, column, event |
+| expand-change | 当用户对某一行展开或者关闭的时候会触发该事件 | row, expandedRows |
+
+### 工具栏事件
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| refresh | 点击刷新按钮时触发 | — |
+| add | 点击新增按钮时触发 | — |
+
+### 操作列事件
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| edit | 点击编辑按钮时触发 | row, index |
+| delete | 点击删除按钮时触发 | row, index |
+
+### 分页事件
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| size-change | 每页条数改变时触发 | size |
+| page-change | 当前页改变时触发 | page |
+
+## Slots
+
+| 插槽名 | 说明 | 参数 |
+|--------|------|------|
+| toolbar-left | 工具栏左侧内容 | — |
+| toolbar-right | 工具栏右侧内容 | — |
+| expand | 展开行内容 | { row, $index, column } |
+| actions | 操作列内容 | { row, $index, column } |
+| [column.slot] | 自定义列内容 | { row, $index, column } |
+| [column.headerSlot] | 自定义列表头 | { column, $index } |
+
+## Methods
+
+| 方法名 | 说明 | 参数 |
+|--------|------|------|
+| getTable | 获取表格实例 | — |
+| setCurrentRow | 设置当前行 | row |
+| toggleRowSelection | 切换行选择状态 | row, selected |
+| toggleAllSelection | 切换全选状态 | — |
+| clearSelection | 清空选择 | — |
+| clearSort | 清空排序 | — |
+| clearFilter | 清空筛选 | columnKeys |
+| doLayout | 手动排序 | — |
+| sort | 排序 | prop, order |
+| getRowKey | 获取行的唯一标识 | row |
+| setSelectedRow | 设置选中的行 | row |
+| getSelectedRow | 获取选中的行 | — |
+| clearRadioSelection | 清空单选选择 | — |
+
+## 高级用法
+
+### 单选表格
+
+```vue
+<template>
+  <elu-table
+    :data="tableData"
+    :columns="columns"
+    :show-radio="true"
+    :selected-row-key="selectedRowKey"
+    @radio-change="handleRadioChange"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { id: 1, name: '张三', age: 25 },
+        { id: 2, name: '李四', age: 30 }
+      ],
+      selectedRowKey: null,
+      columns: [
+        { prop: 'name', label: '姓名' },
+        { prop: 'age', label: '年龄' }
+      ]
+    }
+  },
+  methods: {
+    handleRadioChange(row) {
+      console.log('选中的行：', row)
+      this.selectedRowKey = row ? row.id : null
+    }
+  }
+}
+</script>
+```
+
+### 自定义列内容
+
+```vue
+<template>
+  <elu-table :data="tableData" :columns="columns">
+    <!-- 自定义状态列 -->
+    <template #status="{ row }">
+      <el-tag :type="getStatusType(row.status)">
+        {{ getStatusText(row.status) }}
+      </el-tag>
+    </template>
+    
+    <!-- 自定义操作列 -->
+    <template #actions="{ row, $index }">
+      <el-button size="small" type="primary" @click="handleView(row)">
+        查看
+      </el-button>
+      <el-button size="small" type="success" @click="handleEdit(row, $index)">
+        编辑
+      </el-button>
+    </template>
+  </elu-table>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      columns: [
+        { prop: 'name', label: '姓名' },
+        { prop: 'status', label: '状态', slot: 'status' },
+        { prop: 'actions', label: '操作', slot: 'actions' }
+      ]
+    }
+  }
+}
+</script>
+```
+
+### 展开行
+
+```vue
+<template>
+  <elu-table :data="tableData" :columns="columns" :show-expand="true">
+    <template #expand="{ row }">
+      <div class="expand-detail">
+        <h4>详细信息</h4>
+        <p>姓名：{{ row.name }}</p>
+        <p>年龄：{{ row.age }}</p>
+        <p>邮箱：{{ row.email }}</p>
+      </div>
+    </template>
+  </elu-table>
+</template>
+```
+
+### 排序和筛选
+
+```vue
+<template>
+  <elu-table :data="tableData" :columns="columns" @sort-change="handleSortChange" @filter-change="handleFilterChange" />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: '姓名',
+          sortable: true,
+          filters: [
+            { text: '张三', value: '张三' },
+            { text: '李四', value: '李四' }
+          ],
+          filterMethod: (value, row) => row.name === value
+        },
+        {
+          prop: 'age',
+          label: '年龄',
+          sortable: true,
+          formatter: (row, column, cellValue) => `${cellValue}岁`
+        }
+      ]
+    }
+  },
+  methods: {
+    handleSortChange({ prop, order }) {
+      console.log('排序变化：', prop, order)
+    },
+    handleFilterChange() {
+      console.log('筛选变化')
+    }
+  }
+}
+</script>
+```
+
+## 注意事项
+
+1. 列配置中的 `prop` 属性必须唯一
+2. 使用自定义插槽时，需要在列配置中指定 `slot` 属性
+3. 分页功能需要手动处理数据加载逻辑
+4. 表格高度建议设置，避免数据过多时页面过长
+5. 选择功能需要配合 `row-key` 属性使用，确保数据唯一性 

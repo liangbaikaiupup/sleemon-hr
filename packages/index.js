@@ -1,8 +1,9 @@
 import EluForm from './elu-form/index'
+import EluTable from './elu-table/index'
 
 
 // 把组件保存到一个数组中,可有多个
-const components = [EluForm];
+const components = [EluForm, EluTable];
 // 插件安装方法
 const install = function(Vue) {
   if (install.installed) return
@@ -26,5 +27,6 @@ export default {
 }
 
 export {
-  EluForm
+  EluForm,
+  EluTable
 } 

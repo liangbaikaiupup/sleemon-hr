@@ -1,19 +1,25 @@
 <template>
   <div id="app">
     <div class="app-header">
-      <h1>Sleemon HR - EluForm 组件库演示</h1>
+      <h1>Sleemon HR - 组件库演示</h1>
       <div class="nav-tabs">
         <el-button 
           :type="activeTab === 'methods' ? 'primary' : 'default'"
           @click="activeTab = 'methods'"
         >
-          方法演示
+          表单方法演示
         </el-button>
         <el-button 
           :type="activeTab === 'components' ? 'primary' : 'default'"
           @click="activeTab = 'components'"
         >
-          组件类型
+          表单组件类型
+        </el-button>
+        <el-button 
+          :type="activeTab === 'table' ? 'primary' : 'default'"
+          @click="activeTab = 'table'"
+        >
+          表格组件演示
         </el-button>
       </div>
     </div>
@@ -21,6 +27,7 @@
     <div class="app-content">
       <dynamic-options-demo v-if="activeTab === 'methods'"></dynamic-options-demo>
       <form-components-demo v-if="activeTab === 'components'"></form-components-demo>
+      <table-demo v-if="activeTab === 'table'"></table-demo>
     </div>
   </div>
 </template>
@@ -28,12 +35,14 @@
 <script>
 import DynamicOptionsDemo from './components/DynamicOptionsDemo.vue'
 import FormComponentsDemo from './components/FormComponentsDemo.vue'
+import TableDemo from './components/TableDemo.vue'
 
 export default {
   name: "App",
   components: {
     DynamicOptionsDemo,
-    FormComponentsDemo
+    FormComponentsDemo,
+    TableDemo
   },
   data() {
     return {
