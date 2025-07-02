@@ -12,7 +12,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name sleemon-hr --dest dist packages/index.js",
-    "build:lib:min": "vue-cli-service build --target lib --name sleemon-hr --dest dist packages/index.js --mode production"
+    "build:lib:min": "vue-cli-service build --target lib --name sleemon-hr --dest dist packages/index.js --mode production --no-clean",
+    "build:lib:analyze": "vue-cli-service build --target lib --name sleemon-hr --dest dist packages/index.js --mode production --report"
   },
   "dependencies": {
     "core-js": "^3.8.3",
