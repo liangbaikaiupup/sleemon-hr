@@ -318,10 +318,10 @@
 
     <!-- 默认按钮 -->
     <el-form-item v-if="showDefaultButtons">
-      <el-button type="primary" :loading="submitLoading" @click="handleSubmit">
+      <el-button type="primary" :icon="submitIcon" :loading="submitLoading" @click="handleSubmit">
         {{ submitText }}
       </el-button>
-      <el-button @click="handleReset">
+      <el-button :icon="resetIcon" @click="handleReset">
         {{ resetText }}
       </el-button>
     </el-form-item>
@@ -404,7 +404,7 @@ export default {
     // 提交按钮文本
     submitText: {
       type: String,
-      default: "提交",
+      default: "查询",
     },
     // 重置按钮文本
     resetText: {
@@ -415,6 +415,17 @@ export default {
     submitLoading: {
       type: Boolean,
       default: false,
+    },
+
+    // 提交按钮图标
+    submitIcon: {
+      type: String,
+      default: "el-icon-search",
+    },
+    // 重置按钮图标
+    resetIcon: {  
+      type: String,
+      default: "el-icon-refresh",
     },
   },
   data() {
