@@ -21,6 +21,12 @@
         >
           表格组件演示
         </el-button>
+        <el-button 
+          :type="activeTab === 'dictTag' ? 'primary' : 'default'"
+          @click="activeTab = 'dictTag'"
+        >
+          字典标签组件演示
+        </el-button>
       </div>
     </div>
     
@@ -28,6 +34,7 @@
       <dynamic-options-demo v-if="activeTab === 'methods'"></dynamic-options-demo>
       <form-components-demo v-if="activeTab === 'components'"></form-components-demo>
       <table-demo v-if="activeTab === 'table'"></table-demo>
+      <dict-tag-demo v-if="activeTab === 'dictTag'"></dict-tag-demo>
     </div>
   </div>
 </template>
@@ -36,13 +43,15 @@
 import DynamicOptionsDemo from './components/DynamicOptionsDemo.vue'
 import FormComponentsDemo from './components/FormComponentsDemo.vue'
 import TableDemo from './components/TableDemo.vue'
+import DictTagDemo from './components/DictTagDemo.vue'
 
 export default {
   name: "App",
   components: {
     DynamicOptionsDemo,
     FormComponentsDemo,
-    TableDemo
+    TableDemo,
+    DictTagDemo
   },
   data() {
     return {
