@@ -7,7 +7,7 @@
       </div>
       <div class="elu-table__toolbar-right">
         <slot name="toolbar-right">
-          <el-button
+          <!-- <el-button
             v-if="showRefresh"
             :size="size"
             icon="el-icon-refresh"
@@ -23,7 +23,7 @@
             @click="handleAdd"
           >
             新增
-          </el-button>
+          </el-button> -->
         </slot>
       </div>
     </div>
@@ -825,7 +825,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
     padding: 8px 0;
 
     .elu-table__toolbar-left {
