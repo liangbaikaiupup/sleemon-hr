@@ -3,17 +3,18 @@
     <div class="app-header">
       <h1>Sleemon HR - 组件库演示</h1>
       <div class="nav-tabs">
+        
+        <el-button 
+          :type="activeTab === 'formComponents' ? 'primary' : 'default'"
+          @click="activeTab = 'formComponents'"
+        >
+          表单组件类型
+        </el-button>
         <el-button 
           :type="activeTab === 'methods' ? 'primary' : 'default'"
           @click="activeTab = 'methods'"
         >
           表单方法演示
-        </el-button>
-        <el-button 
-          :type="activeTab === 'components' ? 'primary' : 'default'"
-          @click="activeTab = 'components'"
-        >
-          表单组件类型
         </el-button>
         <el-button 
           :type="activeTab === 'table' ? 'primary' : 'default'"
@@ -22,19 +23,21 @@
           表格组件演示
         </el-button>
         <el-button 
-          :type="activeTab === 'dictTag' ? 'primary' : 'default'"
-          @click="activeTab = 'dictTag'"
+          :type="activeTab === 'components' ? 'primary' : 'default'"
+          @click="activeTab = 'components'"
         >
-          字典标签组件演示
+          常见组件
         </el-button>
+        
       </div>
     </div>
     
     <div class="app-content">
       <dynamic-options-demo v-if="activeTab === 'methods'"></dynamic-options-demo>
-      <form-components-demo v-if="activeTab === 'components'"></form-components-demo>
+      <form-components-demo v-if="activeTab === 'formComponents'"></form-components-demo>
       <table-demo v-if="activeTab === 'table'"></table-demo>
-      <dict-tag-demo v-if="activeTab === 'dictTag'"></dict-tag-demo>
+      <components-demo v-if="activeTab === 'components'"></components-demo>
+
     </div>
   </div>
 </template>
@@ -43,7 +46,8 @@
 import DynamicOptionsDemo from './components/DynamicOptionsDemo.vue'
 import FormComponentsDemo from './components/FormComponentsDemo.vue'
 import TableDemo from './components/TableDemo.vue'
-import DictTagDemo from './components/DictTagDemo.vue'
+import ComponentsDemo from './components/ComponentsDemo.vue'
+
 
 export default {
   name: "App",
@@ -51,11 +55,12 @@ export default {
     DynamicOptionsDemo,
     FormComponentsDemo,
     TableDemo,
-    DictTagDemo
+    ComponentsDemo,
+    
   },
   data() {
     return {
-      activeTab: 'components'
+      activeTab: 'formComponents'
     }
   }
 };
@@ -69,8 +74,8 @@ export default {
   color: #2c3e50;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  /* background-color: #f5f5f5; */
+  /* min-height: 100vh; */
 }
 
 .app-header {

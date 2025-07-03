@@ -3,6 +3,7 @@ import EluTable from './elu-table/index'
 import EluDictTag from './elu-dict-tag/index'
 
 
+
 // 把组件保存到一个数组中,可有多个
 const components = [EluForm, EluTable, EluDictTag];
 // 插件安装方法
@@ -30,5 +31,5 @@ export default {
 export {
   EluForm,
   EluTable,
-  EluDictTag
+  EluDictTag,
 } 
