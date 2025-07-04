@@ -6,11 +6,19 @@ import "@/styles/comon.scss";
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 引入我们的插件
-import EluForm from '../packages/index.js'
+// 引入我们的组件库
+import EluUI from '../packages/index.js'
 
 Vue.use(ElementUI)
-Vue.use(EluForm)
+// 批量注册所有组件
+Vue.use(EluUI)
+
+// 或者单独注册组件（可选）
+// import { EluForm, EluGridForm, EluTable, EluDictTag } from '../packages/index.js'
+// Vue.component('EluForm', EluForm)
+// Vue.component('EluGridForm', EluGridForm)
+// Vue.component('EluTable', EluTable)
+// Vue.component('EluDictTag', EluDictTag)
 
 Vue.config.productionTip = false;
 

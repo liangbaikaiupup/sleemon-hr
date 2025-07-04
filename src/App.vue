@@ -17,6 +17,13 @@
           表单方法演示
         </el-button>
         <el-button 
+          :type="activeTab === 'gridForm' ? 'primary' : 'default'"
+          @click="activeTab = 'gridForm'"
+        >
+          栅格布局表单
+        </el-button>
+        
+        <el-button 
           :type="activeTab === 'table' ? 'primary' : 'default'"
           @click="activeTab = 'table'"
         >
@@ -35,6 +42,8 @@
     <div class="app-content">
       <dynamic-options-demo v-if="activeTab === 'methods'"></dynamic-options-demo>
       <form-components-demo v-if="activeTab === 'formComponents'"></form-components-demo>
+      <grid-form-demo v-if="activeTab === 'gridForm'"></grid-form-demo>
+
       <table-demo v-if="activeTab === 'table'"></table-demo>
       <components-demo v-if="activeTab === 'components'"></components-demo>
 
@@ -45,6 +54,7 @@
 <script>
 import DynamicOptionsDemo from './components/DynamicOptionsDemo.vue'
 import FormComponentsDemo from './components/FormComponentsDemo.vue'
+import GridFormDemo from './components/GridFormDemo.vue'
 import TableDemo from './components/TableDemo.vue'
 import ComponentsDemo from './components/ComponentsDemo.vue'
 
@@ -54,6 +64,7 @@ export default {
   components: {
     DynamicOptionsDemo,
     FormComponentsDemo,
+    GridFormDemo,
     TableDemo,
     ComponentsDemo,
     

@@ -416,7 +416,6 @@ export default {
       type: Boolean,
       default: false,
     },
-
     // 提交按钮图标
     submitIcon: {
       type: String,
@@ -671,10 +670,6 @@ export default {
 <style lang="scss" scoped>
 .el-form {
   width: 100%;
-}
-
-.el-form-item:last-child {
-  margin-bottom: 0;
 }
 
 /* 自定义样式 */

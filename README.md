@@ -4,7 +4,8 @@
 
 ## 组件列表
 
-- **EluForm** - 表单组件，支持多种控件类型和动态选项
+- **EluForm** - 传统表单组件，支持多种控件类型和动态选项
+- **EluGridForm** - 栅格布局表单组件，支持响应式布局
 - **EluTable** - 表格组件，支持 JSON 配置和丰富功能
 - **EluDictTag** - 字典标签组件，用于显示数据字典
 
@@ -18,21 +19,24 @@ npm install sleemon-hr
 
 ```javascript
 import Vue from 'vue'
-import { EluForm, EluTable, EluDictTag } from 'sleemon-hr'
+import { EluForm, EluGridForm, EluTable, EluDictTag } from 'sleemon-hr'
 
 // 注册组件
 Vue.component('EluForm', EluForm)
+Vue.component('EluGridForm', EluGridForm)
 Vue.component('EluTable', EluTable)
 Vue.component('EluDictTag', EluDictTag)
 ```
 
 ---
 
-# EluForm 组件
+# 表单组件
 
-基于 Element UI 封装的表单组件，支持多种表单控件类型和动态选项配置。
+## EluForm - 传统表单组件
 
-## 基础用法
+基于 Element UI 封装的表单组件，支持多种表单控件类型和动态选项配置，适用于垂直排列的表单布局。
+
+### 基础用法
 
 ```vue
 <template>
@@ -76,6 +80,138 @@ export default {
 </script>
 ```
 
+### 行内表单
+
+```vue
+<elu-form
+  :config="formConfig"
+  :model="formData"
+  :inline="true"
+  @submit="handleSubmit"
+/>
+```
+
+## EluGridForm - 栅格布局表单组件
+
+基于 Element UI 栅格系统的表单组件，支持响应式布局，适用于复杂的多列表单布局。
+
+### 基础栅格布局
+
+```vue
+<template>
+  <elu-grid-form
+    :config="formConfig"
+    :model="formData"
+    :row-gutter="20"
+    @submit="handleSubmit"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      formData: { name: '', email: '', phone: '', age: '' },
+      formConfig: [
+        {
+          prop: 'name',
+          label: '姓名',
+          type: 'input',
+          span: 12, // 占一半宽度
+          required: true
+        },
+        {
+          prop: 'email',
+          label: '邮箱',
+          type: 'input',
+          inputType: 'email',
+          span: 12, // 占一半宽度
+          required: true
+        },
+        {
+          prop: 'phone',
+          label: '手机号',
+          type: 'input',
+          span: 12
+        },
+        {
+          prop: 'age',
+          label: '年龄',
+          type: 'number',
+          span: 12
+        },
+        {
+          prop: 'address',
+          label: '详细地址',
+          type: 'input',
+          span: 24, // 占满整行
+          autosize: { minRows: 2, maxRows: 4 }
+        }
+      ]
+    }
+  }
+}
+</script>
+```
+
+### 响应式栅格布局
+
+```javascript
+const responsiveConfig = [
+  {
+    prop: 'name',
+    label: '姓名',
+    type: 'input',
+    span: 24,    // 默认占满整行
+    xs: 24,      // 超小屏幕占满
+    sm: 12,      // 小屏幕占一半
+    md: 8,       // 中等屏幕占1/3
+    lg: 6,       // 大屏幕占1/4
+    xl: 4        // 超大屏幕占1/6
+  }
+]
+```
+
+### 栅格布局属性
+
+| 属性名 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `rowGutter` | Number/String | `0` | 行间距 |
+| `rowJustify` | String | `'start'` | 水平排列方式 |
+| `rowAlign` | String | `'top'` | 垂直排列方式 |
+| `defaultColSpan` | Number/String | `6` | 默认列宽度 |
+
+### 字段级栅格属性
+
+每个字段配置可以包含以下栅格相关属性：
+
+| 属性名 | 类型 | 说明 |
+|--------|------|------|
+| `span` | Number/String | 列宽度（1-24） |
+| `offset` | Number/String | 列偏移量 |
+| `push` | Number/String | 列向右移动格数 |
+| `pull` | Number/String | 列向左移动格数 |
+| `xs` | Number/String/Object | 超小屏幕 (<768px) 的列宽度 |
+| `sm` | Number/String/Object | 小屏幕 (≥768px) 的列宽度 |
+| `md` | Number/String/Object | 中等屏幕 (≥992px) 的列宽度 |
+| `lg` | Number/String/Object | 大屏幕 (≥1200px) 的列宽度 |
+| `xl` | Number/String/Object | 超大屏幕 (≥1920px) 的列宽度 |
+
+### 组件选择建议
+
+**使用 EluForm 的场景：**
+- 简单的表单布局
+- 移动端优先的应用
+- 字段数量较少的表单
+- 需要垂直排列的表单
+
+**使用 EluGridForm 的场景：**
+- 复杂的表单布局
+- 桌面端优先的应用
+- 字段数量较多的表单
+- 需要响应式布局的表单
+- 需要多列布局的表单
+
 ## 支持的控件类型
 
 | 类型 | 说明 | 示例 |
@@ -86,9 +222,12 @@ export default {
 | `checkbox` | 复选框组 | 多选按钮 |
 | `switch` | 开关 | 布尔值切换 |
 | `date` | 日期选择器 | 日期、时间、范围 |
+| `time` | 时间选择器 | 时间选择 |
 | `number` | 数字输入框 | 数字输入 |
 | `slider` | 滑块 | 数值范围选择 |
 | `rate` | 评分 | 星级评分 |
+| `color-picker` | 颜色选择器 | 颜色选择 |
+| `cascader` | 级联选择器 | 多级选择 |
 | `upload` | 上传组件 | 文件上传 |
 
 ## 动态选项
@@ -109,7 +248,9 @@ export default {
       label: item.cityName,
       value: item.cityCode
     }))
-  }
+  },
+  // 延迟加载（仅在展开时加载）
+  loadImmediate: false
 }
 ```
 
@@ -246,16 +387,16 @@ export default {
 
 ## 完整示例
 
-### 表单 + 表格 + 字典标签组合
+### 栅格表单 + 表格 + 字典标签组合
 
 ```vue
 <template>
   <div>
     <!-- 搜索表单 -->
-    <elu-form
+    <elu-grid-form
       :config="searchConfig"
       :model="searchForm"
-      inline
+      :row-gutter="16"
       @submit="handleSearch"
     />
     
@@ -284,12 +425,30 @@ export default {
     return {
       searchForm: { name: '', status: '' },
       searchConfig: [
-        { type: 'input', prop: 'name', label: '姓名' },
-        { type: 'select', prop: 'status', label: '状态', options: [
-          { label: '全部', value: '' },
-          { label: '在职', value: 'active' },
-          { label: '离职', value: 'inactive' }
-        ]}
+        { 
+          type: 'input', 
+          prop: 'name', 
+          label: '姓名',
+          span: 8
+        },
+        { 
+          type: 'select', 
+          prop: 'status', 
+          label: '状态', 
+          span: 8,
+          options: [
+            { label: '全部', value: '' },
+            { label: '在职', value: 'active' },
+            { label: '离职', value: 'inactive' }
+          ]
+        },
+        {
+          type: 'date',
+          prop: 'dateRange',
+          label: '入职日期',
+          span: 8,
+          dateType: 'daterange'
+        }
       ],
       tableData: [],
       tableColumns: [
@@ -314,12 +473,59 @@ export default {
 </script>
 ```
 
+### 传统表单 + 表格组合
+
+```vue
+<template>
+  <div>
+    <!-- 简单搜索表单 -->
+    <elu-form
+      :config="searchConfig"
+      :model="searchForm"
+      :inline="true"
+      @submit="handleSearch"
+    />
+    
+    <!-- 数据表格 -->
+    <elu-table
+      :data="tableData"
+      :columns="tableColumns"
+      :show-toolbar="true"
+      @refresh="loadData"
+    />
+  </div>
+</template>
+```
+
+## 栅格系统说明
+
+Element UI 的栅格系统基于 24 列布局：
+
+- `span` 值范围：1-24
+- `span: 24` 表示占满整行
+- `span: 12` 表示占一半宽度
+- `span: 8` 表示占 1/3 宽度
+- `span: 6` 表示占 1/4 宽度
+- `span: 4` 表示占 1/6 宽度
+
+## 响应式断点
+
+| 断点 | 屏幕宽度 | 说明 |
+|------|----------|------|
+| `xs` | < 768px | 超小屏幕（手机） |
+| `sm` | ≥ 768px | 小屏幕（平板） |
+| `md` | ≥ 992px | 中等屏幕（小桌面） |
+| `lg` | ≥ 1200px | 大屏幕（桌面） |
+| `xl` | ≥ 1920px | 超大屏幕（大桌面） |
+
 ## 注意事项
 
 1. **Element UI 依赖** - 需要先安装并引入 Element UI
 2. **数据格式** - 注意各组件对数据格式的要求
 3. **事件处理** - 根据业务需求处理相应的事件回调
 4. **性能优化** - 大数据量时注意性能优化
+5. **栅格布局** - 确保每行的 `span` 总和不超过 24
+6. **响应式设计** - 为关键字段配置响应式属性
 
 ## 浏览器兼容性
 
