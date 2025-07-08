@@ -1,6 +1,6 @@
 {
   "name": "sleemon-hr",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "dist/sleemon-hr.umd.js",
   "module": "dist/sleemon-hr.esm.js",
   "files": [
@@ -8,7 +8,7 @@
     "packages"
   ],
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name sleemon-hr --dest dist packages/index.js",
