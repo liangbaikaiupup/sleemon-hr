@@ -315,6 +315,8 @@ export default {
 - ✅ **操作列** - 编辑、删除等操作按钮
 - ✅ **自定义列** - 支持插槽自定义列内容
 - ✅ **展开行** - 支持行展开显示详细信息
+- ✅ **序号列** - 自动生成序号
+- ✅ **单选列** - 支持单选模式
 
 ## 列配置
 
@@ -331,6 +333,153 @@ const columns = [
     slot: 'name-slot'      // 自定义插槽
   }
 ]
+```
+
+## 表格功能配置
+
+### 工具栏配置
+
+```javascript
+{
+  showToolbar: true,        // 显示工具栏
+  showRefresh: true,        // 显示刷新按钮
+  showAdd: true            // 显示新增按钮
+}
+```
+
+### 选择功能配置
+
+```javascript
+{
+  showSelection: true,      // 显示多选列
+  selectionWidth: 55,       // 选择列宽度
+  reserveSelection: false,  // 保留选择状态
+  selectable: (row) => {    // 自定义选择逻辑
+    return row.status === 'active'
+  }
+}
+```
+
+### 单选功能配置
+
+```javascript
+{
+  showRadio: true,          // 显示单选列
+  radioWidth: 55,           // 单选列宽度
+  selectedRowKey: 1,        // 当前选中行
+  @radio-change: (row) => { // 单选变化事件
+    console.log('选中:', row)
+  }
+}
+```
+
+### 序号列配置
+
+```javascript
+{
+  showIndex: true,          // 显示序号列
+  indexLabel: '序号',       // 序号列标题
+  indexWidth: 60,           // 序号列宽度
+  indexAlign: 'center'      // 序号列对齐方式
+}
+```
+
+### 展开行配置
+
+```javascript
+{
+  showExpand: true,         // 显示展开列
+  expandWidth: 50,          // 展开列宽度
+  @expand-change: (row, expandedRows) => {
+    console.log('展开变化:', row, expandedRows)
+  }
+}
+```
+
+### 操作列配置
+
+```javascript
+{
+  showActions: true,        // 显示操作列
+  actionsLabel: '操作',     // 操作列标题
+  actionsWidth: 150,        // 操作列宽度
+  showEdit: true,           // 显示编辑按钮
+  showDelete: true,         // 显示删除按钮
+  @edit: (row, index) => {  // 编辑事件
+    console.log('编辑:', row, index)
+  },
+  @delete: (row, index) => { // 删除事件
+    console.log('删除:', row, index)
+  }
+}
+```
+
+### 分页配置
+
+```javascript
+{
+  showPagination: true,     // 显示分页
+  currentPage: 1,           // 当前页
+  pageSize: 10,             // 每页条数
+  total: 100,               // 总条数
+  pageSizes: [10, 20, 50, 100], // 每页条数选项
+  @page-change: (page) => { // 页码变化事件
+    console.log('页码变化:', page)
+  },
+  @size-change: (size) => { // 每页条数变化事件
+    console.log('条数变化:', size)
+  }
+}
+```
+
+## 自定义插槽
+
+### 自定义列内容
+
+```vue
+<elu-table :data="tableData" :columns="columns">
+  <!-- 自定义状态列 -->
+  <template #status="{ row }">
+    <el-tag :type="getStatusType(row.status)">
+      {{ getStatusText(row.status) }}
+    </el-tag>
+  </template>
+  
+  <!-- 自定义操作列 -->
+  <template #actions="{ row, $index }">
+    <el-button size="small" @click="handleView(row)">查看</el-button>
+    <el-button size="small" type="primary" @click="handleEdit(row, $index)">编辑</el-button>
+    <el-button size="small" type="danger" @click="handleDelete(row, $index)">删除</el-button>
+  </template>
+  
+  <!-- 自定义展开内容 -->
+  <template #expand="{ row }">
+    <div class="expand-detail">
+      <h4>详细信息</h4>
+      <el-descriptions :column="2" border>
+        <el-descriptions-item label="姓名">{{ row.name }}</el-descriptions-item>
+        <el-descriptions-item label="年龄">{{ row.age }}</el-descriptions-item>
+      </el-descriptions>
+    </div>
+  </template>
+</elu-table>
+```
+
+### 自定义工具栏
+
+```vue
+<elu-table :data="tableData" :columns="columns" :show-toolbar="true">
+  <!-- 自定义工具栏左侧 -->
+  <template #toolbar-left>
+    <el-button size="small" type="success" @click="handleExport">导出</el-button>
+    <el-button size="small" type="warning" @click="handleBatchDelete">批量删除</el-button>
+  </template>
+  
+  <!-- 自定义工具栏右侧 -->
+  <template #toolbar-right>
+    <el-button size="small" type="primary" @click="handleAdd">新增</el-button>
+  </template>
+</elu-table>
 ```
 
 ---
@@ -383,6 +532,19 @@ export default {
 />
 ```
 
+## 自定义样式
+
+```javascript
+const options = [
+  {
+    label: '在职',
+    value: 'active',
+    elTagType: 'success',
+    elTagClass: 'custom-tag'  // 自定义 CSS 类
+  }
+]
+```
+
 ---
 
 ## 完整示例
@@ -406,7 +568,10 @@ export default {
       :columns="tableColumns"
       :show-toolbar="true"
       :show-selection="true"
+      :show-pagination="true"
+      :total="total"
       @refresh="loadData"
+      @page-change="handlePageChange"
     >
       <!-- 自定义状态列 -->
       <template #status="{ row }">
@@ -414,6 +579,13 @@ export default {
           :options="statusOptions"
           :value="row.status"
         />
+      </template>
+      
+      <!-- 自定义操作列 -->
+      <template #actions="{ row, $index }">
+        <el-button size="small" type="primary" link @click="handleView(row)">查看</el-button>
+        <el-button size="small" type="success" link @click="handleEdit(row, $index)">编辑</el-button>
+        <el-button size="small" type="danger" link @click="handleDelete(row, $index)">删除</el-button>
       </template>
     </elu-table>
   </div>
@@ -458,7 +630,8 @@ export default {
       statusOptions: [
         { label: '在职', value: 'active', elTagType: 'success' },
         { label: '离职', value: 'inactive', elTagType: 'danger' }
-      ]
+      ],
+      total: 0
     }
   },
   methods: {
@@ -467,6 +640,9 @@ export default {
     },
     loadData() {
       // 加载数据逻辑
+    },
+    handlePageChange(page) {
+      this.loadData()
     }
   }
 }
@@ -526,6 +702,7 @@ Element UI 的栅格系统基于 24 列布局：
 4. **性能优化** - 大数据量时注意性能优化
 5. **栅格布局** - 确保每行的 `span` 总和不超过 24
 6. **响应式设计** - 为关键字段配置响应式属性
+7. **表格配置** - 确保表格有正确的 `row-key` 配置
 
 ## 浏览器兼容性
 
