@@ -32,6 +32,7 @@
     <el-table
       ref="table"
       :data="tableData"
+      v-bind="$attrs"
       :height="height"
       :max-height="maxHeight"
       :stripe="stripe"
@@ -52,7 +53,7 @@
       :row-key="rowKey"
       :empty-text="emptyText"
       :default-expand-all="defaultExpandAll"
-      :expand-row-keys="expandRowKeys"
+      
       :default-sort="defaultSort"
       :tooltip-effect="tooltipEffect"
       :show-summary="showSummary"
@@ -344,7 +345,7 @@ export default {
     // 行数据的 Key，用来优化 Table 的渲染
     rowKey: {
       type: [String, Function],
-      default: null,
+      default: null
     },
     // 空数据时显示的文本内容
     emptyText: {
@@ -357,14 +358,14 @@ export default {
       default: false,
     },
     // 展开行的 keys 数组
-    expandRowKeys: {
-      type: Array,
-      default: () => [],
-    },
+    // expandRowKeys: {
+    //   type: Array,
+    //   default: () => [],
+    // },
     // 默认的排序列的 prop 和顺序
     defaultSort: {
       type: Object,
-      default: null,
+      default: () => ({}),
     },
     // tooltip effect 属性
     tooltipEffect: {
