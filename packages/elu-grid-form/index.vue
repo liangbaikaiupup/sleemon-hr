@@ -1,303 +1,125 @@
 <template>
-  <el-form
-    ref="form"
-    :model="formData"
-    :rules="formRules"
-    :label-width="labelWidth"
-    :label-position="labelPosition"
-    :size="size"
-    :disabled="disabled"
-    :inline="inline"
-    :show-message="showMessage"
-    :inline-message="inlineMessage"
-    :status-icon="statusIcon"
-    :validate-on-rule-change="validateOnRuleChange"
-    :hide-required-asterisk="hideRequiredAsterisk"
-    @submit.native.prevent="handleSubmit"
-  >
+  <el-form ref="form" :model="formData" :rules="formRules" :label-width="labelWidth" :label-position="labelPosition"
+    :size="size" :disabled="disabled" :inline="inline" :show-message="showMessage" :inline-message="inlineMessage"
+    :status-icon="statusIcon" :validate-on-rule-change="validateOnRuleChange"
+    :hide-required-asterisk="hideRequiredAsterisk" @submit.native.prevent="handleSubmit">
     <!-- 栅格布局容器 -->
-    <el-row
-      :gutter="rowGutter"
-      :justify="rowJustify"
-      :align="rowAlign"
-      :tag="rowTag"
-    >
-      <el-col
-        v-for="(field, index) in formConfig"
-        :key="field.prop || index"
-        :span="field.span || defaultColSpan"
-        :offset="field.offset || 0"
-        :push="field.push || 0"
-        :pull="field.pull || 0"
-        :xs="field.xs"
-        :sm="field.sm"
-        :md="field.md"
-        :lg="field.lg"
-        :xl="field.xl"
-      >
-        <el-form-item
-          :label="field.label"
-          :prop="field.prop"
-          :rules="field.rules"
-          :label-width="field.labelWidth"
-          :required="field.required"
-          :error="field.error"
-          :show-message="field.showMessage"
-          :inline-message="field.inlineMessage"
-          :size="field.size"
-        >
+    <el-row :gutter="rowGutter" :justify="rowJustify" :align="rowAlign" :tag="rowTag">
+      <el-col v-for="(field, index) in formConfig" :key="field.prop || index" :span="field.span || defaultColSpan"
+        :offset="field.offset || 0" :push="field.push || 0" :pull="field.pull || 0" :xs="field.xs" :sm="field.sm"
+        :md="field.md" :lg="field.lg" :xl="field.xl">
+        <el-form-item :label="field.label" :prop="field.prop" :rules="field.rules" :label-width="field.labelWidth"
+          :required="field.required" :error="field.error" :show-message="field.showMessage"
+          :inline-message="field.inlineMessage" :size="field.size">
           <!-- 输入框 -->
-          <el-input
-            v-if="field.type === 'input'"
-            v-model="formData[field.prop]"
-            :type="field.inputType || 'text'"
-            :placeholder="field.placeholder"
-            :disabled="field.disabled"
-            :clearable="field.clearable !== false"
-            :show-password="field.showPassword"
-            :maxlength="field.maxlength"
-            :minlength="field.minlength"
-            :show-word-limit="field.showWordLimit"
-            :prefix-icon="field.prefixIcon"
-            :suffix-icon="field.suffixIcon"
-            :autosize="field.autosize"
-            :rows="field.rows"
-            @input="handleFieldChange(field.prop, $event)"
-            @change="handleFieldChange(field.prop, $event)"
-            @blur="handleFieldBlur(field.prop, $event)"
-            @focus="handleFieldFocus(field.prop, $event)"
-          ></el-input>
+          <el-input v-if="field.type === 'input'" v-model="formData[field.prop]" :type="field.inputType || 'text'"
+            :placeholder="field.placeholder" :disabled="field.disabled" :clearable="field.clearable !== false"
+            :show-password="field.showPassword" :maxlength="field.maxlength" :minlength="field.minlength"
+            :show-word-limit="field.showWordLimit" :prefix-icon="field.prefixIcon" :suffix-icon="field.suffixIcon"
+            :autosize="field.autosize" :rows="field.rows" @input="handleFieldChange(field.prop, $event)"
+            @change="handleFieldChange(field.prop, $event)" @blur="handleFieldBlur(field.prop, $event)"
+            @focus="handleFieldFocus(field.prop, $event)"></el-input>
 
           <!-- 选择器 -->
-          <el-select
-            v-else-if="field.type === 'select'"
-            v-model="formData[field.prop]"
-            :placeholder="field.placeholder"
-            :disabled="field.disabled"
-            :clearable="field.clearable !== false"
-            :multiple="field.multiple"
-            :collapse-tags="field.collapseTags"
-            :filterable="field.filterable"
-            :allow-create="field.allowCreate"
-            :remote="field.remote"
-            :remote-method="field.remoteMethod"
-            :loading="getFieldLoading(field.prop)"
-            :no-data-text="field.noDataText || '暂无数据'"
-            :no-match-text="field.noMatchText || '无匹配数据'"
-            @change="handleFieldChange(field.prop, $event)"
-            @blur="handleFieldBlur(field.prop, $event)"
-            @focus="handleFieldFocus(field.prop, $event)"
-            @visible-change="handleSelectVisibleChange(field, $event)"
-          >
-            <el-option
-              v-for="option in getFieldOptions(field.prop)"
-              :key="option.value"
-              :label="option.label"
-              :value="option.value"
-              :disabled="option.disabled"
-            ></el-option>
+          <el-select v-else-if="field.type === 'select'" v-model="formData[field.prop]" :placeholder="field.placeholder"
+            :disabled="field.disabled" :clearable="field.clearable !== false" :multiple="field.multiple"
+            :collapse-tags="field.collapseTags" :filterable="field.filterable" :allow-create="field.allowCreate"
+            :remote="field.remote" :remote-method="field.remoteMethod" :loading="getFieldLoading(field.prop)"
+            :no-data-text="field.noDataText || '暂无数据'" :no-match-text="field.noMatchText || '无匹配数据'"
+            @change="handleFieldChange(field.prop, $event)" @blur="handleFieldBlur(field.prop, $event)"
+            @focus="handleFieldFocus(field.prop, $event)" @visible-change="handleSelectVisibleChange(field, $event)">
+            <el-option v-for="option in getFieldOptions(field.prop)" :key="option.value" :label="option.label"
+              :value="option.value" :disabled="option.disabled"></el-option>
           </el-select>
 
           <!-- 单选框组 -->
-          <el-radio-group
-            v-else-if="field.type === 'radio'"
-            v-model="formData[field.prop]"
-            :disabled="field.disabled"
-            :size="field.size"
-            @change="handleFieldChange(field.prop, $event)"
-          >
-            <el-radio
-              v-for="option in field.options"
-              :key="option.value"
-              :label="option.value"
-              :disabled="option.disabled"
-            >
+          <el-radio-group v-else-if="field.type === 'radio'" v-model="formData[field.prop]" :disabled="field.disabled"
+            :size="field.size" @change="handleFieldChange(field.prop, $event)">
+            <el-radio v-for="option in field.options" :key="option.value" :label="option.value"
+              :disabled="option.disabled">
               {{ option.label }}
             </el-radio>
           </el-radio-group>
 
           <!-- 复选框组 -->
-          <el-checkbox-group
-            v-else-if="field.type === 'checkbox'"
-            v-model="formData[field.prop]"
-            :disabled="field.disabled"
-            :size="field.size"
-            :min="field.min"
-            :max="field.max"
-            @change="handleFieldChange(field.prop, $event)"
-          >
-            <el-checkbox
-              v-for="option in field.options"
-              :key="option.value"
-              :label="option.value"
-              :disabled="option.disabled"
-            >
+          <el-checkbox-group v-else-if="field.type === 'checkbox'" v-model="formData[field.prop]"
+            :disabled="field.disabled" :size="field.size" :min="field.min" :max="field.max"
+            @change="handleFieldChange(field.prop, $event)">
+            <el-checkbox v-for="option in field.options" :key="option.value" :label="option.value"
+              :disabled="option.disabled">
               {{ option.label }}
             </el-checkbox>
           </el-checkbox-group>
 
           <!-- 开关 -->
-          <el-switch
-            v-else-if="field.type === 'switch'"
-            v-model="formData[field.prop]"
-            :disabled="field.disabled"
-            :active-text="field.activeText"
-            :inactive-text="field.inactiveText"
-            :active-value="field.activeValue"
-            :inactive-value="field.inactiveValue"
-            :active-color="field.activeColor"
-            :inactive-color="field.inactiveColor"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-switch>
+          <el-switch v-else-if="field.type === 'switch'" v-model="formData[field.prop]" :disabled="field.disabled"
+            :active-text="field.activeText" :inactive-text="field.inactiveText" :active-value="field.activeValue"
+            :inactive-value="field.inactiveValue" :active-color="field.activeColor"
+            :inactive-color="field.inactiveColor" @change="handleFieldChange(field.prop, $event)"></el-switch>
 
           <!-- 日期选择器 -->
-          <el-date-picker
-            v-else-if="field.type === 'date'"
-            v-model="formData[field.prop]"
-            :type="field.dateType || 'date'"
-            :placeholder="field.placeholder"
-            :disabled="field.disabled"
-            :clearable="field.clearable !== false"
-            :format="field.format"
-            :value-format="field.valueFormat"
-            :start-placeholder="field.startPlaceholder"
-            :end-placeholder="field.endPlaceholder"
-            :range-separator="field.rangeSeparator"
-            :picker-options="field.pickerOptions"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-date-picker>
+          <el-date-picker v-else-if="field.type === 'date'" v-model="formData[field.prop]"
+            :type="field.dateType || 'date'" :placeholder="field.placeholder" :disabled="field.disabled"
+            :clearable="field.clearable !== false" :format="field.format" :value-format="field.valueFormat"
+            :start-placeholder="field.startPlaceholder" :end-placeholder="field.endPlaceholder"
+            :range-separator="field.rangeSeparator" :picker-options="field.pickerOptions"
+            @change="handleFieldChange(field.prop, $event)"></el-date-picker>
 
           <!-- 时间选择器 -->
-          <el-time-picker
-            v-else-if="field.type === 'time'"
-            v-model="formData[field.prop]"
-            :placeholder="field.placeholder"
-            :disabled="field.disabled"
-            :clearable="field.clearable !== false"
-            :format="field.format"
-            :value-format="field.valueFormat"
-            :picker-options="field.pickerOptions"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-time-picker>
+          <el-time-picker v-else-if="field.type === 'time'" v-model="formData[field.prop]"
+            :placeholder="field.placeholder" :disabled="field.disabled" :clearable="field.clearable !== false"
+            :format="field.format" :value-format="field.valueFormat" :picker-options="field.pickerOptions"
+            @change="handleFieldChange(field.prop, $event)"></el-time-picker>
 
           <!-- 数字输入框 -->
-          <el-input-number
-            v-else-if="field.type === 'number'"
-            v-model="formData[field.prop]"
-            :min="field.min"
-            :max="field.max"
-            :step="field.step"
-            :step-strictly="field.stepStrictly"
-            :precision="field.precision"
-            :disabled="field.disabled"
-            :controls="field.controls !== false"
-            :controls-position="field.controlsPosition"
-            :placeholder="field.placeholder"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-input-number>
+          <el-input-number v-else-if="field.type === 'number'" v-model="formData[field.prop]" :min="field.min"
+            :max="field.max" :step="field.step" :step-strictly="field.stepStrictly" :precision="field.precision"
+            :disabled="field.disabled" :controls="field.controls !== false" :controls-position="field.controlsPosition"
+            :placeholder="field.placeholder" @change="handleFieldChange(field.prop, $event)"></el-input-number>
 
           <!-- 滑块 -->
-          <el-slider
-            v-else-if="field.type === 'slider'"
-            v-model="formData[field.prop]"
-            :min="field.min"
-            :max="field.max"
-            :step="field.step"
-            :disabled="field.disabled"
-            :show-input="field.showInput"
-            :show-input-controls="field.showInputControls"
-            :input-size="field.inputSize"
-            :show-stops="field.showStops"
-            :show-tooltip="field.showTooltip"
-            :range="field.range"
-            :vertical="field.vertical"
-            :height="field.height"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-slider>
+          <el-slider v-else-if="field.type === 'slider'" v-model="formData[field.prop]" :min="field.min"
+            :max="field.max" :step="field.step" :disabled="field.disabled" :show-input="field.showInput"
+            :show-input-controls="field.showInputControls" :input-size="field.inputSize" :show-stops="field.showStops"
+            :show-tooltip="field.showTooltip" :range="field.range" :vertical="field.vertical" :height="field.height"
+            @change="handleFieldChange(field.prop, $event)"></el-slider>
 
           <!-- 评分 -->
-          <el-rate
-            v-else-if="field.type === 'rate'"
-            v-model="formData[field.prop]"
-            :max="field.max"
-            :disabled="field.disabled"
-            :low-threshold="field.lowThreshold"
-            :high-threshold="field.highThreshold"
-            :colors="field.colors"
-            :void-color="field.voidColor"
-            :disabled-void-color="field.disabledVoidColor"
-            :icon-classes="field.iconClasses"
-            :void-icon-class="field.voidIconClass"
-            :disabled-void-icon-class="field.disabledVoidIconClass"
-            :show-text="field.showText"
-            :show-score="field.showScore"
-            :text-color="field.textColor"
-            :texts="field.texts"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-rate>
+          <el-rate v-else-if="field.type === 'rate'" v-model="formData[field.prop]" :max="field.max"
+            :disabled="field.disabled" :low-threshold="field.lowThreshold" :high-threshold="field.highThreshold"
+            :colors="field.colors" :void-color="field.voidColor" :disabled-void-color="field.disabledVoidColor"
+            :icon-classes="field.iconClasses" :void-icon-class="field.voidIconClass"
+            :disabled-void-icon-class="field.disabledVoidIconClass" :show-text="field.showText"
+            :show-score="field.showScore" :text-color="field.textColor" :texts="field.texts"
+            @change="handleFieldChange(field.prop, $event)"></el-rate>
 
           <!-- 颜色选择器 -->
-          <el-color-picker
-            v-else-if="field.type === 'color-picker'"
-            v-model="formData[field.prop]"
-            :disabled="field.disabled"
-            :size="field.size"
-            :show-alpha="field.showAlpha"
-            :color-format="field.colorFormat"
-            :popper-class="field.popperClass"
-            :predefine="field.predefine"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-color-picker>
+          <el-color-picker v-else-if="field.type === 'color-picker'" v-model="formData[field.prop]"
+            :disabled="field.disabled" :size="field.size" :show-alpha="field.showAlpha"
+            :color-format="field.colorFormat" :popper-class="field.popperClass" :predefine="field.predefine"
+            @change="handleFieldChange(field.prop, $event)"></el-color-picker>
 
           <!-- 级联选择器 -->
-          <el-cascader
-            v-else-if="field.type === 'cascader'"
-            v-model="formData[field.prop]"
-            :options="field.options"
-            :placeholder="field.placeholder"
-            :disabled="field.disabled"
-            :clearable="field.clearable !== false"
-            :show-all-levels="field.showAllLevels !== false"
-            :collapse-tags="field.collapseTags"
-            :separator="field.separator"
-            :filterable="field.filterable"
-            :filter-method="field.filterMethod"
-            :debounce="field.debounce"
-            :before-filter="field.beforeFilter"
-            :props="field.props"
-            :size="field.size"
+          <el-cascader v-else-if="field.type === 'cascader'" v-model="formData[field.prop]" :options="field.options"
+            :placeholder="field.placeholder" :disabled="field.disabled" :clearable="field.clearable !== false"
+            :show-all-levels="field.showAllLevels !== false" :collapse-tags="field.collapseTags"
+            :separator="field.separator" :filterable="field.filterable" :filter-method="field.filterMethod"
+            :debounce="field.debounce" :before-filter="field.beforeFilter" :props="field.props" :size="field.size"
             @change="handleFieldChange(field.prop, $event)"
-            @expand-change="handleCascaderExpandChange(field.prop, $event)"
-          ></el-cascader>
+            @expand-change="handleCascaderExpandChange(field.prop, $event)"></el-cascader>
 
           <!-- 上传组件 -->
-          <el-upload
-            v-else-if="field.type === 'upload'"
-            v-model="formData[field.prop]"
-            :action="field.action"
-            :headers="field.headers"
-            :data="field.data"
-            :multiple="field.multiple"
-            :name="field.name"
-            :drag="field.drag"
-            :accept="field.accept"
-            :list-type="field.listType"
-            :auto-upload="field.autoUpload !== false"
-            :show-file-list="field.showFileList !== false"
-            :disabled="field.disabled"
-            :limit="field.limit"
-            :file-list="field.fileList"
-            :http-request="field.httpRequest"
-            :before-upload="field.beforeUpload"
-            :before-remove="field.beforeRemove"
-            :on-preview="field.onPreview"
-            :on-remove="field.onRemove"
+          <el-upload v-else-if="field.type === 'upload'" v-model="formData[field.prop]" :action="field.action"
+            :headers="field.headers" :data="field.data" :multiple="field.multiple" :name="field.name" :drag="field.drag"
+            :accept="field.accept" :list-type="field.listType" :auto-upload="field.autoUpload !== false"
+            :show-file-list="field.showFileList !== false" :disabled="field.disabled" :limit="field.limit"
+            :file-list="field.fileList" :http-request="field.httpRequest" :before-upload="field.beforeUpload"
+            :before-remove="field.beforeRemove" :on-preview="field.onPreview" :on-remove="field.onRemove"
             :on-success="(response, file, fileList) => handleUploadSuccess(field.prop, response, file, fileList)"
             :on-error="(err, file, fileList) => handleUploadError(field.prop, err, file, fileList)"
             :on-progress="(event, file, fileList) => handleUploadProgress(field.prop, event, file, fileList)"
             :on-exceed="(files, fileList) => handleUploadExceed(field.prop, files, fileList)"
-            :on-change="(file, fileList) => handleUploadChange(field.prop, file, fileList)"
-          >
+            :on-change="(file, fileList) => handleUploadChange(field.prop, file, fileList)">
             <el-button v-if="!field.drag" :size="field.size || 'small'" type="primary">
               <i class="el-icon-upload"></i>
               {{ field.buttonText || '点击上传' }}
@@ -314,36 +136,27 @@
           </el-upload>
 
           <!-- 自定义插槽 -->
-          <slot
-            v-else-if="field.type === 'slot'"
-            :name="field.slotName"
-            :field="field"
-            :value="formData[field.prop]"
-            :form-data="formData"
-          ></slot>
+          <slot v-else-if="field.type === 'slot'" :name="field.slotName" :field="field" :value="formData[field.prop]"
+            :form-data="formData"></slot>
 
           <!-- 默认输入框 -->
-          <el-input
-            v-else
-            v-model="formData[field.prop]"
-            :placeholder="field.placeholder"
-            :disabled="field.disabled"
-            @input="handleFieldChange(field.prop, $event)"
-            @change="handleFieldChange(field.prop, $event)"
-          ></el-input>
+          <el-input v-else v-model="formData[field.prop]" :placeholder="field.placeholder" :disabled="field.disabled"
+            @input="handleFieldChange(field.prop, $event)" @change="handleFieldChange(field.prop, $event)"></el-input>
+        </el-form-item>
+      </el-col>
+      <!-- 默认按钮 -->
+      <el-col v-if="showDefaultButtons" :span="buttonColSpan" :offset="buttonColOffset" :xs="buttonColXs"
+        :sm="buttonColSm" :md="buttonColMd" :lg="buttonColLg" :xl="buttonColXl">
+        <el-form-item>
+          <el-button type="primary" :icon="submitIcon" :loading="submitLoading" @click="handleSubmit">
+            {{ submitText }}
+          </el-button>
+          <el-button :icon="resetIcon" @click="handleReset">
+            {{ resetText }}
+          </el-button>
         </el-form-item>
       </el-col>
     </el-row>
-
-    <!-- 默认按钮 -->
-    <el-form-item v-if="showDefaultButtons">
-      <el-button type="primary" :icon="submitIcon" :loading="submitLoading" @click="handleSubmit">
-        {{ submitText }}
-      </el-button>
-      <el-button :icon="resetIcon" @click="handleReset">
-        {{ resetText }}
-      </el-button>
-    </el-form-item>
   </el-form>
 </template>
 
@@ -441,7 +254,7 @@ export default {
       default: "el-icon-search",
     },
     // 重置按钮图标
-    resetIcon: {  
+    resetIcon: {
       type: String,
       default: "el-icon-refresh",
     },
@@ -472,6 +285,37 @@ export default {
     defaultColSpan: {
       type: [Number, String],
       default: 6,
+    },
+    // 按钮列宽度
+    buttonColSpan: {
+      type: [Number, String],
+      default: 6,
+    },
+    // 按钮列偏移
+    buttonColOffset: {
+      type: [Number, String],
+      default: 0,
+    },
+    // 按钮列响应式布局
+    buttonColXs: {
+      type: [Number, Object],
+      default: undefined,
+    },
+    buttonColSm: {
+      type: [Number, Object],
+      default: undefined,
+    },
+    buttonColMd: {
+      type: [Number, Object],
+      default: undefined,
+    },
+    buttonColLg: {
+      type: [Number, Object],
+      default: undefined,
+    },
+    buttonColXl: {
+      type: [Number, Object],
+      default: undefined,
     },
   },
   data() {
@@ -718,109 +562,40 @@ export default {
 .el-form {
   width: 100%;
 }
-.el-row{
+
+.el-row {
   width: 100%;
 }
+
 /* 栅格布局下的样式调整 */
 .el-col {
   .el-form-item {
     width: 100%;
-    
-    /* 确保表单控件占满整个列宽度 */
-    .el-input,
-    .el-select,
-    .el-radio-group,
-    .el-checkbox-group,
-    .el-date-picker,
-    .el-time-picker,
-    .el-input-number,
-    .el-slider,
-    .el-switch,
-    .el-rate,
-    .el-color-picker,
-    .el-cascader,
-    .el-upload {
-      width: 100%;
+    display: flex;
+    align-items: center;
+
+    ::v-deep .el-form-item__label {
+      flex-shrink: 0;
     }
-    
-    /* 确保 el-form-item__content 占满宽度 */
-    .el-form-item__content {
-      width: 100%;
+
+    ::v-deep .el-form-item__content {
+      flex-grow: 1;
       display: flex;
-      flex-direction: column;
-    }
-    
-    /* 特殊处理某些组件 */
-    .el-input-number {
-      .el-input__inner {
+
+      .el-select {
+        width: 100%;
+      }
+
+      .el-date-editor.el-input, .el-date-editor.el-input__inner{
         width: 100%;
       }
     }
-    
-    .el-slider {
-      .el-slider__runway {
-        width: 100%;
-      }
-    }
-    
-    .el-rate {
-      display: flex;
-      align-items: center;
-    }
-    
-    .el-switch {
-      display: inline-block;
-    }
-    
-    .el-upload {
-      .el-upload-dragger {
-        width: 100%;
-      }
-    }
-    
-    /* 确保单选框和复选框组占满宽度 */
-    .el-radio-group,
-    .el-checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-    
-    /* 确保级联选择器占满宽度 */
-    .el-cascader {
-      width: 100%;
-    }
+
   }
 }
 
-/* 自定义样式 */
-.json-form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.json-form .el-form-item {
-  margin-bottom: 18px;
-}
-
-.json-form .el-form-item__label {
-  font-weight: 500;
-  color: #333;
-}
-
-.json-form .el-input__inner,
-.json-form .el-textarea__inner {
-  border-radius: 4px;
-}
-
-.json-form .el-button {
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.json-form .el-button + .el-button {
+/* 按钮样式调整 */
+.el-form-item .el-button+.el-button {
   margin-left: 10px;
 }
-</style> 
+</style>

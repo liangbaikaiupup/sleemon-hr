@@ -95,6 +95,15 @@ export default {
 
 基于 Element UI 栅格系统的表单组件，支持响应式布局，适用于复杂的多列表单布局。
 
+### 核心特性
+
+- ✅ **栅格系统** - 基于 24 列栅格系统，灵活布局
+- ✅ **响应式布局** - 支持不同屏幕尺寸的自适应布局
+- ✅ **表单控件宽度自适应** - 所有表单控件自动填充栅格列宽度
+- ✅ **按钮栅格布局** - 支持将操作按钮也放入栅格系统管理
+- ✅ **多种控件类型** - 支持输入框、选择器、日期等多种表单控件
+- ✅ **统一样式管理** - 确保各种控件在栅格中的一致性表现
+
 ### 基础栅格布局
 
 ```vue
@@ -172,6 +181,32 @@ const responsiveConfig = [
 ]
 ```
 
+### 按钮栅格布局示例
+
+```vue
+<template>
+  <!-- 按钮居右显示 -->
+  <elu-grid-form
+    :config="formConfig"
+    :model="formData"
+    :button-col-span="6"
+    :button-col-offset="18"
+    @submit="handleSubmit"
+  />
+  
+  <!-- 按钮响应式布局 -->
+  <elu-grid-form
+    :config="formConfig"
+    :model="formData"
+    :button-col-span="24"
+    :button-col-md="{ span: 6, offset: 18 }"
+    :button-col-sm="{ span: 12, offset: 12 }"
+    :button-col-xs="24"
+    @submit="handleSubmit"
+  />
+</template>
+```
+
 ### 栅格布局属性
 
 | 属性名 | 类型 | 默认值 | 说明 |
@@ -180,6 +215,20 @@ const responsiveConfig = [
 | `rowJustify` | String | `'start'` | 水平排列方式 |
 | `rowAlign` | String | `'top'` | 垂直排列方式 |
 | `defaultColSpan` | Number/String | `6` | 默认列宽度 |
+
+### 按钮栅格布局属性
+
+EluGridForm 支持将默认按钮也放入栅格系统中，可以通过以下属性控制按钮的布局：
+
+| 属性名 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `buttonColSpan` | Number/String | `6` | 按钮列宽度 |
+| `buttonColOffset` | Number/String | `0` | 按钮列偏移 |
+| `buttonColXs` | Number/Object | `undefined` | 超小屏幕按钮列响应式配置 |
+| `buttonColSm` | Number/Object | `undefined` | 小屏幕按钮列响应式配置 |
+| `buttonColMd` | Number/Object | `undefined` | 中等屏幕按钮列响应式配置 |
+| `buttonColLg` | Number/Object | `undefined` | 大屏幕按钮列响应式配置 |
+| `buttonColXl` | Number/Object | `undefined` | 超大屏幕按钮列响应式配置 |
 
 ### 字段级栅格属性
 
@@ -703,6 +752,8 @@ Element UI 的栅格系统基于 24 列布局：
 5. **栅格布局** - 确保每行的 `span` 总和不超过 24
 6. **响应式设计** - 为关键字段配置响应式属性
 7. **表格配置** - 确保表格有正确的 `row-key` 配置
+8. **EluGridForm 样式** - 组件已内置样式优化，表单控件会自动填充栅格列宽度
+9. **按钮布局** - 使用按钮栅格属性可以精确控制操作按钮的位置和响应式行为
 
 ## 浏览器兼容性
 

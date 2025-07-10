@@ -1,66 +1,40 @@
 <template>
   <div class="grid-form-demo">
     <h2>栅格布局表单演示</h2>
-    
+
     <!-- 基础栅格布局 -->
     <div class="demo-section">
       <h3>基础栅格布局（2列布局）</h3>
-      <elu-grid-form
-        :config="basicGridConfig"
-        :model="formData"
-        :row-gutter="20"
-        @submit="handleSubmit"
-        @reset="handleReset"
-      />
+      <elu-grid-form :config="basicGridConfig" :model="formData" :row-gutter="20" @submit="handleSubmit"
+        @reset="handleReset" />
     </div>
 
     <!-- 3列布局 -->
     <div class="demo-section">
       <h3>3列布局</h3>
-      <elu-grid-form
-        :config="threeColumnConfig"
-        :model="formData"
-        :row-gutter="16"
-        @submit="handleSubmit"
-        @reset="handleReset"
-      />
+      <elu-grid-form :config="threeColumnConfig" :model="formData" :row-gutter="16" @submit="handleSubmit"
+        @reset="handleReset" />
     </div>
 
     <!-- 4列布局 -->
     <div class="demo-section">
       <h3>4列布局</h3>
-      <elu-grid-form
-        :config="fourColumnConfig"
-        :model="formData"
-        :row-gutter="12"
-        @submit="handleSubmit"
-        @reset="handleReset"
-      />
+      <elu-grid-form :config="fourColumnConfig" :model="formData" :row-gutter="12" @submit="handleSubmit"
+        @reset="handleReset" />
     </div>
 
     <!-- 响应式栅格布局 -->
     <div class="demo-section">
       <h3>响应式栅格布局</h3>
-      <elu-grid-form
-        :config="responsiveGridConfig"
-        :model="formData"
-        :row-gutter="24"
-        @submit="handleSubmit"
-        @reset="handleReset"
-      />
+      <elu-grid-form :config="responsiveGridConfig" :model="formData" :row-gutter="24" @submit="handleSubmit"
+        @reset="handleReset" />
     </div>
 
     <!-- 混合布局 -->
     <div class="demo-section">
       <h3>混合布局（栅格 + 传统）</h3>
-      <elu-grid-form
-        :config="mixedConfig"
-        :model="formData"
-        :row-gutter="16"
-        :row-justify="'space-between'"
-        @submit="handleSubmit"
-        @reset="handleReset"
-      />
+      <elu-grid-form :config="mixedConfig" :model="formData" :row-gutter="16" :row-justify="'space-between'"
+        @submit="handleSubmit" @reset="handleReset" />
     </div>
 
     <!-- 表单数据展示 -->
@@ -76,7 +50,7 @@
 export default {
   name: 'GridFormDemo',
   components: {
-    
+
   },
   data() {
     return {
@@ -123,6 +97,13 @@ export default {
             { required: true, message: '请输入邮箱', trigger: 'blur' },
             { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
           ]
+        },
+        {
+          prop: 'birthday',
+          label: '生日',
+          type: 'date',
+          placeholder: '请选择生日',
+          span: 12,
         },
         {
           prop: 'phone',
@@ -320,12 +301,12 @@ export default {
           label: '姓名',
           type: 'input',
           placeholder: '请输入姓名',
-          span: 24, // 默认占满整行
-          xs: 24,   // 超小屏幕占满
-          sm: 12,   // 小屏幕占一半
-          md: 8,    // 中等屏幕占1/3
-          lg: 6,    // 大屏幕占1/4
-          xl: 4,    // 超大屏幕占1/6
+          span: 6, // 默认占满整行
+          // xs: 24,   // 超小屏幕占满
+          // sm: 12,   // 小屏幕占一半
+          // md: 8,    // 中等屏幕占1/3
+          // lg: 6,    // 大屏幕占1/4
+          // xl: 4,    // 超大屏幕占1/6
           required: true
         },
         {
@@ -334,12 +315,7 @@ export default {
           type: 'input',
           inputType: 'email',
           placeholder: '请输入邮箱',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4,
+
           required: true
         },
         {
@@ -347,35 +323,20 @@ export default {
           label: '手机号',
           type: 'input',
           placeholder: '请输入手机号',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4
+
         },
         {
           prop: 'age',
           label: '年龄',
           type: 'number',
           placeholder: '请输入年龄',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4
+
         },
         {
           prop: 'gender',
           label: '性别',
           type: 'radio',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4,
+
           options: [
             { label: '男', value: 'male' },
             { label: '女', value: 'female' }
@@ -386,12 +347,7 @@ export default {
           label: '城市',
           type: 'select',
           placeholder: '请选择城市',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4,
+
           options: [
             { label: '北京', value: 'beijing' },
             { label: '上海', value: 'shanghai' },
@@ -404,23 +360,12 @@ export default {
           label: '生日',
           type: 'date',
           placeholder: '请选择生日',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4
         },
         {
           prop: 'status',
           label: '状态',
           type: 'switch',
-          span: 24,
-          xs: 24,
-          sm: 12,
-          md: 8,
-          lg: 6,
-          xl: 4,
+
           activeText: '启用',
           inactiveText: '禁用'
         },
@@ -429,7 +374,7 @@ export default {
           label: '描述',
           type: 'input',
           placeholder: '请输入描述',
-          span: 24, // 描述字段占满整行
+          span: 12, // 描述字段占满整行
           autosize: { minRows: 3, maxRows: 6 }
         }
       ],
@@ -580,4 +525,4 @@ export default {
     }
   }
 }
-</style> 
+</style>
