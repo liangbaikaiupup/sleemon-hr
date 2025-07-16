@@ -527,7 +527,7 @@ export default {
       return this.$refs.form.clearValidate(props);
     },
 
-    // 滚动到指定字段
+    // 滚动到指定字段(element-ui 的 el-form 组件没有这个方法)
     scrollToField(prop) {
       return this.$refs.form.scrollToField(prop);
     },
