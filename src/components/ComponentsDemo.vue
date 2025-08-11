@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div >
         <h2>DictTag</h2>
         <elu-dict-tag :options="options" :value="value1"></elu-dict-tag>
         <!-- <elu-dict-tag :options="options" :value="value2"></elu-dict-tag> -->
+        
     </div>
 </template>
 

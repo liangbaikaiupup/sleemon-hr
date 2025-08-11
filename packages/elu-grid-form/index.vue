@@ -554,6 +554,14 @@ export default {
     handleUploadChange(prop, file, fileList) {
       this.$emit("upload-change", prop, file, fileList, this.formData);
     },
+
+    handleOtherEvent(event, ...args) {
+      this.$emit(event, ...args,this.formData);
+      for(let i = 0; i < this.config.length; i++) {
+        // 如果字段配置了事件，则调用事件
+      }
+
+    },
   },
 };
 </script>

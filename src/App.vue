@@ -35,6 +35,8 @@
         >
           常见组件
         </el-button>
+
+        
         
       </div>
     </div>
@@ -43,7 +45,6 @@
       <dynamic-options-demo v-if="activeTab === 'methods'"></dynamic-options-demo>
       <form-components-demo v-if="activeTab === 'formComponents'"></form-components-demo>
       <grid-form-demo v-if="activeTab === 'gridForm'"></grid-form-demo>
-
       <table-demo v-if="activeTab === 'table'"></table-demo>
       <components-demo v-if="activeTab === 'components'"></components-demo>
 
