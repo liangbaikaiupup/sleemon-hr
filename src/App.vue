@@ -36,7 +36,12 @@
           常见组件
         </el-button>
 
-        
+        <el-button 
+          :type="activeTab === 'colForm' ? 'primary' : 'default'"
+          @click="activeTab = 'colForm'"
+        >
+          HR布局表单
+        </el-button>
         
       </div>
     </div>
@@ -47,7 +52,7 @@
       <grid-form-demo v-if="activeTab === 'gridForm'"></grid-form-demo>
       <table-demo v-if="activeTab === 'table'"></table-demo>
       <components-demo v-if="activeTab === 'components'"></components-demo>
-
+      <col-form-demo v-if="activeTab === 'colForm'"></col-form-demo>
     </div>
   </div>
 </template>
@@ -58,6 +63,7 @@ import FormComponentsDemo from './components/FormComponentsDemo.vue'
 import GridFormDemo from './components/GridFormDemo.vue'
 import TableDemo from './components/TableDemo.vue'
 import ComponentsDemo from './components/ComponentsDemo.vue'
+import ColFormDemo from './components/ColFormDemo.vue'
 
 
 export default {
@@ -68,11 +74,11 @@ export default {
     GridFormDemo,
     TableDemo,
     ComponentsDemo,
-    
+    ColFormDemo
   },
   data() {
     return {
-      activeTab: 'formComponents'
+      activeTab: 'colForm'
     }
   }
 };

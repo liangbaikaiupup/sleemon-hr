@@ -1,6 +1,6 @@
 {
   "name": "sleemon-hr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/sleemon-hr.umd.js",
   "module": "dist/sleemon-hr.esm.js",
   "files": [

@@ -3,6 +3,8 @@
         <h2>DictTag</h2>
         <elu-dict-tag :options="options" :value="value1"></elu-dict-tag>
         <!-- <elu-dict-tag :options="options" :value="value2"></elu-dict-tag> -->
+
+        
         
     </div>
 </template>
@@ -17,9 +19,13 @@ export default {
                 { label: '选项3', value: '3' },
             ],
             value1: '1',
-            value2: ['1', '2']
+            value2: ['1', '2'],
+           
         }
-    }
+    },
+    methods: {
+        
+    },
 }
 </script>
 

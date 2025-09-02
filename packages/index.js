@@ -3,11 +3,12 @@ import EluGridForm from './elu-grid-form/index'
 import EluTable from './elu-table/index'
 import EluDictTag from './elu-dict-tag/index'
 import EluContainer from './elu-containar/index'
+import EluColForm from './elu-col-form/index'
 
 
 
 // 把组件保存到一个数组中,可有多个
-const components = [EluForm, EluGridForm, EluTable, EluDictTag, EluContainer];
+const components = [EluForm, EluGridForm, EluTable, EluDictTag, EluContainer,EluColForm];
 // 插件安装方法
 const install = function(Vue) {
   if (install.installed) return
@@ -35,5 +36,6 @@ export {
   EluGridForm,
   EluTable,
   EluDictTag,
+  EluColForm,
   EluContainer,
 }     
